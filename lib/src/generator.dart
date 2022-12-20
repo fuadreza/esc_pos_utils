@@ -391,8 +391,10 @@ class Generator {
   /// Cut the paper
   ///
   /// [mode] is used to define the full or partial cut (if supported by the printer)
-  List<int> cut({PosCutMode mode = PosCutMode.full}) {
+  /// with option to give extra new lines with [newLines]
+  List<int> cut({PosCutMode mode = PosCutMode.full, int newLines = 0}) {
     List<int> bytes = [];
+    bytes += emptyLines(newLines);
     if (mode == PosCutMode.partial) {
       bytes += cCutPart.codeUnits;
     } else {
