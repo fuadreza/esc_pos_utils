@@ -8,6 +8,7 @@
 
 import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
+import 'package:esc_pos_utils/extensions/string_extension.dart';
 import 'package:hex/hex.dart';
 import 'package:image/image.dart';
 import 'package:gbk_codec/gbk_codec.dart';
@@ -72,7 +73,9 @@ class Generator {
         .replaceAll("´", "'")
         .replaceAll("»", '"')
         .replaceAll(" ", ' ')
-        .replaceAll("•", '.');
+        .replaceAll("•", '.')
+        .replaceAll('–', '-')
+        .replaceNonPrintable(replaceWith: '?');
     if (!isKanji) {
       return latin1.encode(text);
     } else {
