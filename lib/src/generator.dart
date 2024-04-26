@@ -29,6 +29,7 @@ class Generator {
   // Current styles
   PosStyles _styles = PosStyles();
   int spaceBetweenRows;
+  bool firstLaunch = true;
 
   // ************************ Internal helpers ************************
   int _getMaxCharsPerLine(PosFontType? font) {
@@ -262,7 +263,7 @@ class Generator {
 
   List<int> setStyles(PosStyles styles, {bool isKanji = false}) {
     List<int> bytes = [];
-    if (styles.align != _styles.align) {
+    if (styles.align != _styles.align || firstLaunch) {
       bytes += latin1.encode(styles.align == PosAlign.left
           ? cAlignLeft
           : (styles.align == PosAlign.center ? cAlignCenter : cAlignRight));
@@ -329,6 +330,10 @@ class Generator {
           ..add(_profile.getCodePageId(_codeTable)),
       );
       _styles = _styles.copyWith(align: styles.align, codeTable: _codeTable);
+    }
+
+    if (firstLaunch) {
+      firstLaunch = false;
     }
 
     return bytes;
